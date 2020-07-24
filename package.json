@@ -1,11 +1,11 @@
 {
   "name": "@sbrighiu/epubjs-rn",
-  "version": "0.2.51",
+  "version": "0.2.55",
   "repository": "https://github.com/sbrighiu/epubjs-rn",
   "main": "./components/index.js",
   "private": false,
   "scripts": {
-    "start": "node EpubReader/node_modules/react-native/local-cli/cli.js start",
+    "start": "node EpubReader-broken/node_modules/react-native/local-cli/cli.js start",
     "contents": "webpack --config contents/webpack.config.js",
     "build": "./node_modules/.bin/babel src/ -d components/",
     "watch": "./node_modules/.bin/babel src/ -d components/ -w",
@@ -29,7 +29,7 @@
     "react-native": "0.62.2",
     "react-native-static-server": "0.5.0",
     "react-native-webview": "^10.3.2",
-    "react-native-zip-archive": "5.0.2",
+    "react-native-zip-archive": "5.0.4",
     "rn-fetch-blob": "0.12.0",
     "stream": "0.0.2",
     "stream-browserify": "2.0.2",

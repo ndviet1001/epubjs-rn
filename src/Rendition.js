@@ -450,9 +450,11 @@ class Rendition extends Component {
           onMessage={this._onBridgeMessage.bind(this)}
           contentInsetAdjustmentBehavior="never"
           contentInset={{top: 0}}
+          scalesPageToFit={this.props.scalesPageToFit || false}
           automaticallyAdjustContentInsets={false}
           originWhitelist={['*']}
           allowsLinkPreview={false}
+
         />
         {!this.state.loaded ? loader : null}
       </View>

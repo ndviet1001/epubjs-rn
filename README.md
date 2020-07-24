@@ -17,17 +17,28 @@ then link the required libraries with
 react-native link react-native-static-server && react-native link react-native-webview && react-native link react-native-zip-archive && RNFB_ANDROID_PERMISSIONS=true react-native link rn-fetch-blob && react-native link @lightbase/react-native-orientation && react-native link @react-native-community/async-storage
 ```
 
-then require the `components` you need
+then require the default reader
+
+```
+import EpubReader from 'epubjs-rn';
+```
+
+then you can add the reader element in your code:
+
+```html
+<EpubReader url={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"} />
+```
+
+or you can go the original route and require the `components` you need
 
 ```
 import { Epub } from 'epubjs-rn';
 ```
 
-Then you can add the reader element in your code:
+then you can add the reader element in your code:
 
 ```html
-<Epub src={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"}
-		  flow={"paginated"} />
+<Epub src={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"} flow={"paginated"} />
 ```
 
 * `src`: the url of your epub to render

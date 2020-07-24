@@ -50,8 +50,9 @@ class Epub extends Component{
       width : bounds.width,
       height : bounds.height,
       orientation: "PORTRAIT",
-      streamer: new Streamer()
     }
+
+    this.streamer = new Streamer();
 
   }
 
@@ -354,6 +355,7 @@ class Epub extends Component{
         onDisplayed={this.props.onDisplayed}
         width={this.props.width}
         height={this.props.height}
+        scalesPageToFit={this.props.scalesPageToFit}
         resizeOnOrientationChange={this.props.resizeOnOrientationChange}
         showsHorizontalScrollIndicator={this.props.showsHorizontalScrollIndicator}
         showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}
