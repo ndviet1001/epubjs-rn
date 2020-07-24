@@ -4,17 +4,12 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  Dimensions,
-  Platform,
-  AppState,
   TouchableOpacity
 } from "react-native";
 
 import { WebView } from 'react-native-webview';
 
 import EventEmitter from 'event-emitter'
-
-import AsyncStorage from '@react-native-community/async-storage';
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 
@@ -117,7 +112,7 @@ class Rendition extends Component {
   load(bookUrl) {
     if (!this._webviewLoaded) return;
 
-    __DEV__ && console.log("loading book: ", bookUrl);
+    // console.log("loading book: ", bookUrl);
 
     let config = {
       "minSpreadWidth": this.props.minSpreadWidth || 815,
@@ -339,7 +334,7 @@ class Rendition extends Component {
       }
       case "resized": {
         let {size} = decoded;
-        console.log("resized", size.width, size.height);
+        // console.log("resized", size.width, size.height);
         break;
       }
       case "press": {
@@ -379,7 +374,7 @@ class Rendition extends Component {
         break;
       }
       default: {
-        console.log("msg", decoded);
+        // console.log("msg", decoded);
       }
     }
   }
@@ -454,7 +449,8 @@ class Rendition extends Component {
           automaticallyAdjustContentInsets={false}
           originWhitelist={['*']}
           allowsLinkPreview={false}
-
+          onNavigationStateChange={this.props.onNavigationStateChange}
+          onShouldStartLoadWithRequest={this.props.onShouldStartLoadWithRequest}
         />
         {!this.state.loaded ? loader : null}
       </View>

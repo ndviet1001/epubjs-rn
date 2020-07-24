@@ -2,11 +2,8 @@ import React, { Component } from "react"
 
 import {
   StyleSheet,
-  View,
-  ActivityIndicator,
   Dimensions,
   AppState,
-  WebView
 } from "react-native";
 
 import Orientation from "@lightbase/react-native-orientation";
@@ -73,7 +70,7 @@ class Epub extends Component{
       orientation = this.state.width > this.state.height ? "LANDSCAPE" : "PORTRAIT";
       this.setState({orientation})
     }
-    // __DEV__ && console.log("inital orientation", orientation, this.state.width, this.state.height)
+    // console.log("inital orientation", orientation, this.state.width, this.state.height)
 
     if (this.props.src) {
       this._loadBook(this.props.src);
@@ -197,38 +194,40 @@ class Epub extends Component{
     }
 
 
-    __DEV__ && console.log("orientation", _orientation);
+    // console.log("orientation", _orientation);
 
     this.setState({ orientation: _orientation });
     this.props.onOrientationChanged && this.props.onOrientationChanged(_orientation);
   }
 
   _loadBook(bookUrl) {
-    __DEV__ && console.log("loading book: ", bookUrl);
+    // console.log("loading book: ", bookUrl);
 
     this.book = ePub({
       replacements: this.props.base64 || "none"
     });
 
-    const type = this.book.determineType(bookUrl);
-    const uri = new Uri(bookUrl);
-    if ((type === "directory") || (type === "opf")) {
-      return this._openBook(bookUrl);
-    } else {
-      return this.streamer.start()
-      .then((localOrigin) => {
-        this.setState({localOrigin})
-        return this.streamer.get(bookUrl);
-      })
-      .then((localUrl) => {
-        this.setState({localUrl})
-        return this._openBook(localUrl);
-      });
-    }
+    return this._openBook(bookUrl);
+
+    // const type = this.book.determineType(bookUrl);
+    // const uri = new Uri(bookUrl);
+    // if ((type === "directory") || (type === "opf")) {
+    //   return this._openBook(bookUrl);
+    // } else {
+    //   return this.streamer.start()
+    //   .then((localOrigin) => {
+    //     this.setState({localOrigin})
+    //     return this.streamer.get(bookUrl);
+    //   })
+    //   .then((localUrl) => {
+    //     this.setState({localUrl})
+    //     return this._openBook(localUrl);
+    //   });
+    // }
   }
 
   _openBook(bookUrl, useBase64) {
-    __DEV__ && console.log("open book: ", bookUrl);
+    // console.log("open book: ", bookUrl);
 
     var type = useBase64 ? "base64" : null;
 
@@ -361,6 +360,8 @@ class Epub extends Component{
         showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}
         scrollEnabled={this.props.scrollEnabled}
         pagingEnabled={this.props.pagingEnabled}
+        onNavigationStateChange={this.props.onNavigationStateChange}
+        onShouldStartLoadWithRequest={this.props.onShouldStartLoadWithRequest}
       />
     );
   }

@@ -26,7 +26,7 @@ import EpubReader from 'epubjs-rn';
 then you can add the reader element in your code:
 
 ```html
-<EpubReader url={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"} />
+<EpubReader url={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"} onBookChange={onBookChange} onExternalLinkPress={onExternalLinkPress} />
 ```
 
 or you can go the original route and require the `components` you need

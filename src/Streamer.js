@@ -1,15 +1,8 @@
-import {
-  AppState
-} from 'react-native';
-
 import StaticServer from 'react-native-static-server';
 
 import RNFetchBlob from "rn-fetch-blob";
 
-import { zip, unzip, unzipAssets, subscribe } from 'react-native-zip-archive'
-
-
-import { join } from "path";
+import { unzip } from 'react-native-zip-archive'
 
 const Dirs = RNFetchBlob.fs.dirs
 
