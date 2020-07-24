@@ -35,6 +35,7 @@ const Uri = require("epubjs/lib/utils/url");
 const Path = require("epubjs/lib/utils/path");
 
 import Rendition from './Rendition';
+import Streamer from './Streamer';
 
 class Epub extends Component{
 
@@ -48,7 +49,8 @@ class Epub extends Component{
       show: false,
       width : bounds.width,
       height : bounds.height,
-      orientation: "PORTRAIT"
+      orientation: "PORTRAIT",
+      streamer: new Streamer()
     }
 
   }
@@ -83,6 +85,8 @@ class Epub extends Component{
     AppState.removeEventListener('change', this._handleAppStateChange);
     Orientation.removeSpecificOrientationListener(this._orientationDidChange);
     clearTimeout(this.orientationTimeout);
+
+    this.streamer.kill();
 
     this.destroy();
   }
@@ -205,12 +209,8 @@ class Epub extends Component{
       replacements: this.props.base64 || "none"
     });
 
-    return this._openBook(bookUrl);
-
-    /*
-    var type = this.book.determineType(bookUrl);
-
-    var uri = new Uri(bookUrl);
+    const type = this.book.determineType(bookUrl);
+    const uri = new Uri(bookUrl);
     if ((type === "directory") || (type === "opf")) {
       return this._openBook(bookUrl);
     } else {
@@ -224,7 +224,6 @@ class Epub extends Component{
         return this._openBook(localUrl);
       });
     }
-    */
   }
 
   _openBook(bookUrl, useBase64) {
@@ -365,6 +364,8 @@ class Epub extends Component{
   }
 }
 
+const defaultBackgroundColor = '#FEFEFE'
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -378,10 +379,10 @@ const styles = StyleSheet.create({
     marginTop: 0,
     flexDirection: "row",
     flexWrap: "nowrap",
-    backgroundColor: "#F8F8F8",
+    backgroundColor: defaultBackgroundColor,
   },
   rowContainer: {
-    flex: 1,
+    flex: 1
   },
   loadScreen: {
     position: "absolute",
@@ -389,7 +390,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#fff",
+    backgroundColor: defaultBackgroundColor,
     justifyContent: "center",
     alignItems: "center"
   }

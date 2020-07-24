@@ -15,7 +15,7 @@ import {
 import Icon from 'react-native-vector-icons/EvilIcons'
 
 
-class Nav extends Component<{}> {
+class Nav extends Component<> {
 
   constructor(props) {
     super(props);
@@ -136,9 +136,6 @@ const styles = StyleSheet.create({
     color: "#007AFF",
     textAlign: 'center',
     fontSize: 16,
-  },
-  container: {
-    backgroundColor: 'white',
   },
   navTitle: {
     fontSize: 16,
