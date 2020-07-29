@@ -26,8 +26,19 @@ import EpubReader from 'epubjs-rn';
 then you can add the reader element in your code:
 
 ```html
-<EpubReader url={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"} onBookChange={onBookChange} onExternalLinkPress={onExternalLinkPress} />
+<EpubReader url={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"} />
 ```
+
+* `url`: .opf or .epub url; The component will handle downloading and uncompressing the epub or just showing the opf content. Changing it will re-initialize the component.
+* `onBookChange`: callback returning the book when loaded and ready (similar to onReady); for table of contents objects see book.navigation.toc. For navigating to a location from toc, pass location state to EpubReader and use setLocation(tocObject.href) to execute the navigation. Toc objects can be nested under subitems key.
+* `onExternalLinkPress`: callback with the external url tapped (http://, https://)
+* `onShouldStartLoadWithRequest`: callback for underlying webview onShouldStartLoadWithRequest
+* `onNavigationStateChange`: callback for underlying webview onNavigationStateChange
+* `onInitStart`: when url is present and initialization starts
+* `onInitEnd`: when url is present and initialization ends successfully
+* `onReady`: same as onBookChange.
+* `onError`: when url is present and initialization fails; returns error string.
+* `retryState`: Ability to retry initialization without changing url. Use an useState variable and assign an unique value to retry initialization.
 
 or you can go the original route and require the `components` you need
 
