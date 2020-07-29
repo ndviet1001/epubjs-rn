@@ -12,6 +12,7 @@ import RNFetchBlob from "rn-fetch-blob";
 
 import AsyncStorage from '@react-native-community/async-storage';
 
+const defaultContentInset = {top: 0, bottom: 32};
 
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob;
@@ -351,6 +352,7 @@ class Epub extends Component{
         orientation={this.state.orientation}
         backgroundColor={this.props.backgroundColor}
         onError={this.props.onError}
+        contentInset={this.props.contentInset || defaultContentInset}
         onDisplayed={this.props.onDisplayed}
         width={this.props.width}
         height={this.props.height}

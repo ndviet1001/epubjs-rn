@@ -4,7 +4,9 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform,
+  Dimensions
 } from "react-native";
 
 import { WebView } from 'react-native-webview';
@@ -444,7 +446,7 @@ class Rendition extends Component {
           pagingEnabled={this.props.pagingEnabled}
           onMessage={this._onBridgeMessage.bind(this)}
           contentInsetAdjustmentBehavior="never"
-          contentInset={{top: 0}}
+          contentInset={this.props.contentInset}
           scalesPageToFit={this.props.scalesPageToFit || false}
           automaticallyAdjustContentInsets={false}
           originWhitelist={['*']}

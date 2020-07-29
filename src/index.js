@@ -16,6 +16,7 @@ const EpubReader = ({ url,
                       onReady,
                       onError,
                       retryState,
+                      contentInset = { top: 0, bottom: 32 },
                       ...rest }) => {
   const aBook = useRef();
   const [src, setSrc] = useState();
@@ -121,6 +122,7 @@ const EpubReader = ({ url,
     scalesPageToFit={false}
     showsHorizontalScrollIndicator={false}
     showsVerticalScrollIndicator={false}
+    contentInset={contentInset}
     {...rest}
     onNavigationStateChange={_onNavigationStateChange}
     onShouldStartLoadWithRequest={_onShouldStartLoadWithRequest}
