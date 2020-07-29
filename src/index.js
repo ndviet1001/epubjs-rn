@@ -17,6 +17,7 @@ const EpubReader = ({ url,
                       onError,
                       retryState,
                       ...rest }) => {
+  const aBook = useRef();
   const [src, setSrc] = useState();
   const [book, setBook] = useState(book);
 
@@ -60,21 +61,32 @@ const EpubReader = ({ url,
   }, [book])
 
   const _onError = (error) => {
-    onError && onError(`Failed to initialize stream. Use useState and pass the state value to 'retryState'. Any change to it will try to reinitialize the view. Details: ${error?.toString()}`)
+    const text = `Failed to initialize stream. Use useState and pass the state value to 'retryState'. Any change to it will try to reinitialize the view. Details: ${error?.toString()}`;
+    console.log(text);
+    onError && onError(text)
   }
 
-  const initialize = async () => {
+  const initialize = async (url) => {
     if (url) {
       try {
+        onInitStart && onInitStart()
+        console.log('Starting book init')
+
         streamer?.current?.kill();
 
-        onInitStart && onInitStart()
+        if (!aBook.current) {
+          aBook.current = ePub({ replacements: "none" });
+        }
+        const type = aBook?.current?.determineType(url);
+        if (!type) {
+          _onError('Failed to determine type of document (.opf or .epub)')
+          return
+        }
+        console.log(`Type of document: ${type}`)
 
-        const aBook = ePub({ replacements: "none" });
-        const type = aBook.determineType(url);
         if ((type === "directory") || (type === "opf")) {
-          streamer?.current?.kill();
           setSrc(url)
+          onInitEnd && onInitEnd();
           return;
         }
 
@@ -83,6 +95,7 @@ const EpubReader = ({ url,
         const newUrl = await streamer?.current?.get(url);
         setSrc(newUrl);
 
+        console.log('Ending book init')
         onInitEnd && onInitEnd();
       }
       catch (e) {
@@ -93,7 +106,7 @@ const EpubReader = ({ url,
 
   useEffect(() => {
     if (url) {
-      initialize();
+      initialize(url);
     }
     return () => {
       streamer?.current?.kill();
@@ -113,7 +126,7 @@ const EpubReader = ({ url,
     onShouldStartLoadWithRequest={_onShouldStartLoadWithRequest}
     onReady={_onReady}
     onError={_onError}
-  />
+  />;
 }
 
 export default EpubReader;
