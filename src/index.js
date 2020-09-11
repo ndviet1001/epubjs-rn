@@ -6,6 +6,20 @@ import Streamer from './Streamer'
 
 const style = { flex: 1, width: '100%', height: '100%' }
 
+export const blockTextSelectionThemeContent = {
+  'body': {
+    '-webkit-touch-callout': 'none', /* iOS Safari */
+    '-webkit-user-select': 'none', /* Safari */
+    '-khtml-user-select': 'none', /* Konqueror HTML */
+    '-moz-user-select': 'none', /* Firefox */
+    '-ms-user-select': 'none', /* Internet Explorer/Edge */
+    'user-select': 'none',
+    '-webkit-tap-highlight-color': '#00000000'
+  }
+}
+export const blockTextSelectionName = 'blockTextSelectionTheme'
+export const blockTextSelectionThemesObject = { [blockTextSelectionName]: blockTextSelectionThemeContent }
+
 const EpubReader = ({ url,
                       onBookChange,
                       onExternalLinkPress,
@@ -16,6 +30,9 @@ const EpubReader = ({ url,
                       onReady,
                       onError,
                       retryState,
+                      backgroundColor = '#FEFEFE',
+                      themes,
+                      theme,
                       contentInset = { top: 0, bottom: 32 },
                       ...rest }) => {
   const aBook = useRef();
@@ -71,7 +88,7 @@ const EpubReader = ({ url,
     if (url) {
       try {
         onInitStart && onInitStart()
-        console.log('Starting book init')
+        // console.log('Starting book init')
 
         streamer?.current?.kill();
 
@@ -96,7 +113,7 @@ const EpubReader = ({ url,
         const newUrl = await streamer?.current?.get(url);
         setSrc(newUrl);
 
-        console.log('Ending book init')
+        // console.log('Ending book init')
         onInitEnd && onInitEnd();
       }
       catch (e) {
@@ -118,11 +135,13 @@ const EpubReader = ({ url,
     src={src}
     flow={'scrolled'}
     style={style}
-    backgroundColor={'#FEFEFE'}
+    backgroundColor={backgroundColor}
     scalesPageToFit={false}
     showsHorizontalScrollIndicator={false}
     showsVerticalScrollIndicator={false}
     contentInset={contentInset}
+    themes={themes}
+    theme={theme}
     {...rest}
     onNavigationStateChange={_onNavigationStateChange}
     onShouldStartLoadWithRequest={_onShouldStartLoadWithRequest}

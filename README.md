@@ -20,16 +20,21 @@ react-native link react-native-static-server && react-native link react-native-w
 then require the default reader
 
 ```
-import EpubReader from 'epubjs-rn';
+import EpubReader, { blockTextSelectionThemesObject, blockTextSelectionName } from '@sbrighiu/epubjs-rn';
 ```
 
 then you can add the reader element in your code:
 
 ```html
-<EpubReader url={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"} />
+<EpubReader url={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"}
+            themes={blockTextSelectionThemesObject}
+            theme={blockTextSelectionName} />
 ```
 
 * `url`: .opf or .epub url; The component will handle downloading and uncompressing the epub or just showing the opf content. Changing it will re-initialize the component.
+* `backgroundColor`: background color (default: '#FEFEFE'),
+* `themes`: JSON object of themes names and css properties to be applied (same as before)
+* `theme`: Name of the theme to apply, such as `light` (same as before)
 * `onBookChange`: callback returning the book when loaded and ready (similar to onReady); for table of contents objects see book.navigation.toc. For navigating to a location from toc, pass location state to EpubReader and use setLocation(tocObject.href) to execute the navigation. Toc objects can be nested under subitems key.
 * `onExternalLinkPress`: callback with the external url tapped (http://, https://)
 * `onShouldStartLoadWithRequest`: callback for underlying webview onShouldStartLoadWithRequest
@@ -43,7 +48,7 @@ then you can add the reader element in your code:
 or you can go the original route and require the `components` you need
 
 ```
-import { Epub } from 'epubjs-rn';
+import { Epub } from '@sbrighiu/epubjs-rn';
 ```
 
 then you can add the reader element in your code:
@@ -84,7 +89,7 @@ you will want to use the `Streamer` class to manage the files and start a [Stati
 An example of this method is provided in the example app.
 
 ```
-import { Epub, Streamer } from "epubjs-rn";
+import { Epub, Streamer } from "@sbrighiu/epubjs-rn";
 let streamer = new Streamer();
 
 streamer.start("8899")
