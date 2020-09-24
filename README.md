@@ -1,3 +1,8 @@
+Extra documentation
+===================
+
+Use http://epubjs.org/documentation/0.3/ and the layout-guide.png included in the repo to document yourself :).
+
 Epub.js React Native Components
 ================================
 

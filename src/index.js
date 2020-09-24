@@ -4,7 +4,7 @@ import Epub from './Epub'
 import Rendition from './Rendition'
 import Streamer from './Streamer'
 
-const style = { flex: 1, width: '100%', height: '100%' }
+const defaultStyle = { flex: 1, width: '100%', height: '100%' }
 
 export const blockTextSelectionThemeContent = {
   'body': {
@@ -20,7 +20,12 @@ export const blockTextSelectionThemeContent = {
 export const blockTextSelectionName = 'blockTextSelectionTheme'
 export const blockTextSelectionThemesObject = { [blockTextSelectionName]: blockTextSelectionThemeContent }
 
+export const flowPaginated = 'paginated'
+export const flowScrolled = 'scrolled'
+
 const EpubReader = ({ url,
+                      flow,
+                      style,
                       onBookChange,
                       onExternalLinkPress,
                       onShouldStartLoadWithRequest,
@@ -34,12 +39,20 @@ const EpubReader = ({ url,
                       themes,
                       theme,
                       contentInset = { top: 0, bottom: 32 },
+                      setRenditionRef,
                       ...rest }) => {
   const aBook = useRef();
   const [src, setSrc] = useState();
   const [book, setBook] = useState(book);
 
+  const renditionRef = useRef();
+
   const streamer = useRef();
+
+  const _setRenditionRef = (ref) => {
+    renditionRef.current = ref
+    setRenditionRef && setRenditionRef(ref)
+  }
 
   const _onShouldStartLoadWithRequest = (event) => {
     let r = true;
@@ -133,8 +146,8 @@ const EpubReader = ({ url,
 
   return !url ? null : <Epub
     src={src}
-    flow={'scrolled'}
-    style={style}
+    flow={flow || flowScrolled}
+    style={style || defaultStyle}
     backgroundColor={backgroundColor}
     scalesPageToFit={false}
     showsHorizontalScrollIndicator={false}
@@ -143,6 +156,7 @@ const EpubReader = ({ url,
     themes={themes}
     theme={theme}
     {...rest}
+    setRenditionRef={_setRenditionRef}
     onNavigationStateChange={_onNavigationStateChange}
     onShouldStartLoadWithRequest={_onShouldStartLoadWithRequest}
     onReady={_onReady}
