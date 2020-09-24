@@ -35,6 +35,10 @@ const Path = require("epubjs/lib/utils/path");
 import Rendition from './Rendition';
 import Streamer from './Streamer';
 
+export const bookOptionsExtras = {
+  manager: "continuous",
+}
+
 class Epub extends Component{
 
   constructor(props) {
@@ -205,7 +209,8 @@ class Epub extends Component{
     // console.log("loading book: ", bookUrl);
 
     this.book = ePub({
-      replacements: this.props.base64 || "none"
+      replacements: this.props.base64 || "none",
+      ...bookOptionsExtras
     });
 
     return this._openBook(bookUrl);

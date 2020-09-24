@@ -1,6 +1,6 @@
 import ePub from 'epubjs';
 import React, { useState, useRef, useEffect } from 'react';
-import Epub from './Epub'
+import Epub, { bookOptionsExtras } from './Epub';
 import Rendition from './Rendition'
 import Streamer from './Streamer'
 
@@ -106,7 +106,7 @@ const EpubReader = ({ url,
         streamer?.current?.kill();
 
         if (!aBook.current) {
-          aBook.current = ePub({ replacements: "none" });
+          aBook.current = ePub({ replacements: "none", ...bookOptionsExtras });
         }
         const type = aBook?.current?.determineType(url);
         if (!type) {

@@ -1,6 +1,6 @@
 {
   "name": "@sbrighiu/epubjs-rn",
-  "version": "0.3.5",
+  "version": "0.3.10",
   "repository": "https://github.com/sbrighiu/epubjs-rn",
   "main": "./components/index.js",
   "private": false,
