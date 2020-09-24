@@ -14,7 +14,7 @@ Getting Started
 To use the components in your own app install via npm or yarn
 
 ```bash
-npm install --save epubjs-rn
+npm install --save @sbrighiu/epubjs-rn
 ```
 
 then link the required libraries with
