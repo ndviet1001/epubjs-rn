@@ -1,6 +1,6 @@
 {
   "name": "@sbrighiu/epubjs-rn",
-  "version": "0.3.13",
+  "version": "0.3.15",
   "repository": "https://github.com/sbrighiu/epubjs-rn",
   "main": "./components/index.js",
   "private": false,
@@ -10,7 +10,8 @@
     "build": "./node_modules/.bin/babel src/ -d components/ --delete-dir-on-start --compact false && cp -R ./src ./components/src/",
     "watch": "./node_modules/.bin/babel src/ -d components/ --compact false -w",
     "local": "./node_modules/.bin/gulp watch",
-    "prepublish": "yarn build && cd ./EpubReader && yarn install"
+    "prepublish-only": "yarn build && cd ./EpubReader && yarn install",
+    "publish-it": "yarn prepublish-only && npm publish"
   },
   "license": "BSD-2-Clause",
   "dependencies": {
@@ -29,7 +30,7 @@
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-static-server": "0.5.0",
-    "react-native-webview": "^11.17.1",
+    "react-native-webview": "11.17.1",
     "react-native-zip-archive": "5.0.2",
     "rn-fetch-blob": "0.12.0",
     "stream": "0.0.2",
