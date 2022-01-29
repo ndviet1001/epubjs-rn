@@ -1,61 +1,55 @@
-import React, { Component } from "react"
+import React, { Component } from 'react';
 
-import {
-  StyleSheet,
-  Dimensions,
-  AppState,
-} from "react-native";
+import { StyleSheet, Dimensions, AppState } from 'react-native';
 
-import Orientation from "@lightbase/react-native-orientation";
+import Orientation from '@lightbase/react-native-orientation';
 
-import RNFetchBlob from "rn-fetch-blob";
+import RNFetchBlob from 'rn-fetch-blob';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-const defaultContentInset = {top: 0, bottom: 32};
+const defaultContentInset = { top: 0, bottom: 32 };
 
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob;
 }
 
-global.JSZip = global.JSZip || require("jszip");
+global.JSZip = global.JSZip || require('jszip');
 
-global.URL = require("epubjs/libs/url/url-polyfill.js");
+global.URL = require('epubjs/libs/url/url-polyfill.js');
 
 if (!global.btoa) {
-  global.btoa = require("base-64").encode;
+  global.btoa = require('base-64').encode;
 }
 
-import ePub, { Layout, EpubCFI } from "epubjs";
+import ePub, { Layout, EpubCFI } from 'epubjs';
 
-const core = require("epubjs/lib/utils/core");
-const Uri = require("epubjs/lib/utils/url");
-const Path = require("epubjs/lib/utils/path");
+const core = require('epubjs/lib/utils/core');
+const Uri = require('epubjs/lib/utils/url');
+const Path = require('epubjs/lib/utils/path');
 
 import Rendition from './Rendition';
 import Streamer from './Streamer';
 
 export const bookOptionsExtras = {
-  manager: "continuous",
-}
+  manager: 'continuous',
+};
 
-class Epub extends Component{
-
+class Epub extends Component {
   constructor(props) {
     super(props);
 
-    var bounds = Dimensions.get("window");
+    var bounds = Dimensions.get('window');
 
     this.state = {
       toc: [],
       show: false,
-      width : bounds.width,
-      height : bounds.height,
-      orientation: "PORTRAIT",
-    }
+      width: bounds.width,
+      height: bounds.height,
+      orientation: 'PORTRAIT',
+    };
 
     this.streamer = new Streamer();
-
   }
 
   componentDidMount() {
@@ -65,15 +59,15 @@ class Epub extends Component{
 
     Orientation.addSpecificOrientationListener(this._orientationDidChange.bind(this));
     let orientation = Orientation.getInitialOrientation();
-    if (orientation && (orientation === "PORTRAITUPSIDEDOWN" || orientation === "UNKNOWN")) {
-      orientation = "PORTRAIT";
-      this.setState({orientation})
+    if (orientation && (orientation === 'PORTRAITUPSIDEDOWN' || orientation === 'UNKNOWN')) {
+      orientation = 'PORTRAIT';
+      this.setState({ orientation });
     } else if (orientation) {
-      this.setState({orientation})
+      this.setState({ orientation });
     } else if (orientation === null) {
       // Android starts as null
-      orientation = this.state.width > this.state.height ? "LANDSCAPE" : "PORTRAIT";
-      this.setState({orientation})
+      orientation = this.state.width > this.state.height ? 'LANDSCAPE' : 'PORTRAIT';
+      this.setState({ orientation });
     }
     // console.log("inital orientation", orientation, this.state.width, this.state.height)
 
@@ -95,26 +89,23 @@ class Epub extends Component{
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-
     if (nextState.show !== this.state.show) {
       return true;
     }
 
-    if ((nextProps.width !== this.props.width) ||
-        (nextProps.height !== this.props.height)) {
+    if (nextProps.width !== this.props.width || nextProps.height !== this.props.height) {
       return true;
     }
 
-    if ((nextState.width !== this.state.width) ||
-        (nextState.height !== this.state.height)) {
+    if (nextState.width !== this.state.width || nextState.height !== this.state.height) {
       return true;
     }
 
-    if(nextProps.scrollEnabled !== this.props.scrollEnabled) {
+    if (nextProps.scrollEnabled !== this.props.scrollEnabled) {
       return true;
     }
 
-    if(nextProps.pagingEnabled !== this.props.pagingEnabled) {
+    if (nextProps.pagingEnabled !== this.props.pagingEnabled) {
       return true;
     }
 
@@ -170,7 +161,6 @@ class Epub extends Component{
   }
 
   componentDidUpdate(prevProps) {
-
     if (prevProps.src !== this.props.src) {
       this.destroy();
       this._loadBook(this.props.src);
@@ -184,20 +174,19 @@ class Epub extends Component{
     let wait = 10;
     let _orientation = orientation;
 
-    if(!this.active || !this._isMounted) return;
+    if (!this.active || !this._isMounted) return;
 
-    if (orientation === "PORTRAITUPSIDEDOWN" || orientation === "UNKNOWN") {
-      _orientation = "PORTRAIT";
+    if (orientation === 'PORTRAITUPSIDEDOWN' || orientation === 'UNKNOWN') {
+      _orientation = 'PORTRAIT';
     }
 
-    if (orientation === "LANDSCAPE-RIGHT" || orientation === "LANDSCAPE-LEFT") {
-      _orientation = "LANDSCAPE";
+    if (orientation === 'LANDSCAPE-RIGHT' || orientation === 'LANDSCAPE-LEFT') {
+      _orientation = 'LANDSCAPE';
     }
 
     if (this.state.orientation === _orientation) {
       return;
     }
-
 
     // console.log("orientation", _orientation);
 
@@ -209,8 +198,8 @@ class Epub extends Component{
     // console.log("loading book: ", bookUrl);
 
     this.book = ePub({
-      replacements: this.props.base64 || "none",
-      ...bookOptionsExtras
+      replacements: this.props.base64 || 'none',
+      ...bookOptionsExtras,
     });
 
     return this._openBook(bookUrl);
@@ -235,17 +224,16 @@ class Epub extends Component{
   _openBook(bookUrl, useBase64) {
     // console.log("open book: ", bookUrl);
 
-    var type = useBase64 ? "base64" : null;
+    var type = useBase64 ? 'base64' : null;
 
     if (!this.rendition) {
       this.needsOpen = [bookUrl, useBase64];
       return;
     }
 
-    this.book.open(bookUrl)
-      .catch((err) => {
-        console.error(err);
-      })
+    this.book.open(bookUrl).catch((err) => {
+      console.error(err);
+    });
 
     this.book.ready.then(() => {
       this.isReady = true;
@@ -253,8 +241,8 @@ class Epub extends Component{
     });
 
     this.book.loaded.navigation.then((nav) => {
-      if(!this.active || !this._isMounted) return;
-      this.setState({toc : nav.toc});
+      if (!this.active || !this._isMounted) return;
+      this.setState({ toc: nav.toc });
       this.props.onNavigationReady && this.props.onNavigationReady(nav.toc);
     });
 
@@ -265,16 +253,15 @@ class Epub extends Component{
         this.props.onLocationsReady && this.props.onLocationsReady(this.book.locations);
       });
     }
-
   }
 
   loadLocations() {
     return this.book.ready.then(() => {
       // Load in stored locations from json or local storage
-      var key = this.book.key()+"-locations";
+      var key = this.book.key() + '-locations';
 
       return AsyncStorage.getItem(key).then((stored) => {
-        if (this.props.regenerateLocations != true && stored !== null){
+        if (this.props.regenerateLocations != true && stored !== null) {
           return this.book.locations.load(stored);
         } else {
           return this.book.locations.generate(this.props.locationsCharBreak || 600).then((locations) => {
@@ -283,8 +270,7 @@ class Epub extends Component{
             return locations;
           });
         }
-      })
-
+      });
     });
   }
 
@@ -305,15 +291,15 @@ class Epub extends Component{
   }
 
   _handleAppStateChange(appState) {
-    if (appState === "active") {
+    if (appState === 'active') {
       this.active = true;
     }
 
-    if (appState === "background") {
+    if (appState === 'background') {
       this.active = false;
     }
 
-    if (appState === "inactive") {
+    if (appState === 'inactive') {
       this.active = false;
     }
   }
@@ -344,9 +330,9 @@ class Epub extends Component{
         script={this.props.script}
         onSelected={this.props.onSelected}
         onMarkClicked={this.props.onMarkClicked}
-        onPress={(this.props.onPress)}
-        onLongPress={(this.props.onLongPress)}
-        onDblPress={(this.props.onDblPress)}
+        onPress={this.props.onPress}
+        onLongPress={this.props.onLongPress}
+        onDblPress={this.props.onDblPress}
         onViewAdded={this.props.onViewAdded}
         beforeViewRemoved={this.props.beforeViewRemoved}
         themes={this.props.themes}
@@ -375,12 +361,12 @@ class Epub extends Component{
   }
 }
 
-const defaultBackgroundColor = '#FEFEFE'
+const defaultBackgroundColor = '#FEFEFE';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
   },
   manager: {
     flex: 1,
@@ -388,23 +374,23 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     marginTop: 0,
-    flexDirection: "row",
-    flexWrap: "nowrap",
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
     backgroundColor: defaultBackgroundColor,
   },
   rowContainer: {
-    flex: 1
+    flex: 1,
   },
   loadScreen: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
     backgroundColor: defaultBackgroundColor,
-    justifyContent: "center",
-    alignItems: "center"
-  }
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default Epub;

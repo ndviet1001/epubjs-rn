@@ -1,6 +1,6 @@
 {
   "name": "@sbrighiu/epubjs-rn",
-  "version": "0.3.15",
+  "version": "0.3.20",
   "repository": "https://github.com/sbrighiu/epubjs-rn",
   "main": "./components/index.js",
   "private": false,
@@ -10,7 +10,8 @@
     "build": "./node_modules/.bin/babel src/ -d components/ --delete-dir-on-start --compact false && cp -R ./src ./components/src/",
     "watch": "./node_modules/.bin/babel src/ -d components/ --compact false -w",
     "local": "./node_modules/.bin/gulp watch",
-    "prepublish-only": "yarn build && cd ./EpubReader && yarn install",
+    "prepublish-only": "yarn build && yarn prettier-on-prod && cd ./EpubReader && yarn install",
+    "prettier-on-prod": "prettier --write ./components/src/* ./components/Epub.js ./components/index.js ./components/Streamer.js ./components/bridge.js ./components/Rendition.js",
     "publish-it": "yarn prepublish-only && npm publish"
   },
   "license": "BSD-2-Clause",
@@ -20,7 +21,7 @@
     "@react-native-community/async-storage": "1.10.1",
     "base-64": "0.1.0",
     "buffer": "5.6.0",
-    "epubjs": "0.3.88",
+    "epubjs": "0.3.86",
     "event-emitter": "^0.3.5",
     "events": "3.1.0",
     "i": "0.3.6",
@@ -53,7 +54,19 @@
     "metro-react-native-babel-preset": "0.59.0",
     "babel-jest": "24.8.0",
     "jest": "24.8.0",
-    "react-test-renderer": "16.11.0"
+    "react-test-renderer": "16.11.0",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-plugin-react-native": "^3.8.1",
+    "prettier": "^2.0.5",
+    "prettier-eslint": "^11.0.0",
+    "react-hooks": "^1.0.1"
   },
   "files": [
     "components",
