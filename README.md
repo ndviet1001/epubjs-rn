@@ -19,11 +19,6 @@ or
 npm install --save @sbrighiu/epubjs-rn
 ```
 
-then link the required libraries with
-```bash
-react-native link react-native-static-server && react-native link react-native-webview && react-native link react-native-zip-archive && RNFB_ANDROID_PERMISSIONS=true react-native link rn-fetch-blob && react-native link @lightbase/react-native-orientation && react-native link @react-native-community/async-storage
-```
-
 then require the default reader
 
 ```
@@ -130,5 +125,11 @@ react-native run-android
 
 Other
 -------------------------
+If React Native version is <0.60, link the required libraries with
+```bash
+react-native link react-native-static-server && react-native link react-native-webview && react-native link react-native-zip-archive && RNFB_ANDROID_PERMISSIONS=true react-native link rn-fetch-blob && react-native link @lightbase/react-native-orientation && react-native link @react-native-community/async-storage
+```
 
+Trademark
+-------------------------
 EPUB is a registered trademark of the [IDPF](http://idpf.org/).
