@@ -14,6 +14,8 @@ Getting Started
 To use the components in your own app install via npm or yarn
 
 ```bash
+yarn add @sbrighiu/epubjs-rn
+or
 npm install --save @sbrighiu/epubjs-rn
 ```
 
@@ -108,7 +110,7 @@ streamer.start("8899")
 	});
 ```
 
-Running the example app
+Running the example app (deprecated - no time to fix)
 -------------------------
 
 Install with yarn. (Don't use NPM unless you flatten the packages after install)

@@ -137,7 +137,7 @@ const EpubReader = ({ url,
 
   useEffect(() => {
     if (url) {
-      initialize(url);
+      initialize(url).then();
     }
     return () => {
       streamer?.current?.kill();

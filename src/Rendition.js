@@ -15,6 +15,8 @@ import EventEmitter from 'event-emitter'
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 
+import { renditionEmbeddedScripts } from './utils';
+
 const EMBEDDED_HTML = `
 <!DOCTYPE html>
 <html>
@@ -22,9 +24,7 @@ const EMBEDDED_HTML = `
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
   <title>epubjs</title>
-  <script>${process.env.POLYFILL}</script>
-  <script>${process.env.EPUBJS}</script>
-  <script>${process.env.BRIDGE}</script>
+  ${renditionEmbeddedScripts}
   <style>
     body {
       margin: 0;
@@ -38,6 +38,7 @@ const EMBEDDED_HTML = `
       and (max-device-width : 812px)
       and (-webkit-device-pixel-ratio : 3) {
       body {
+        
         padding-top: calc(env(safe-area-inset-top) / 2);
       }
     }

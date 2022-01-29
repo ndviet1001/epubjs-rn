@@ -1,16 +1,16 @@
 {
   "name": "@sbrighiu/epubjs-rn",
-  "version": "0.3.10",
+  "version": "0.3.13",
   "repository": "https://github.com/sbrighiu/epubjs-rn",
   "main": "./components/index.js",
   "private": false,
   "scripts": {
     "start": "node EpubReader-broken/node_modules/react-native/local-cli/cli.js start",
     "contents": "webpack --config contents/webpack.config.js",
-    "build": "./node_modules/.bin/babel src/ -d components/",
-    "watch": "./node_modules/.bin/babel src/ -d components/ -w",
+    "build": "./node_modules/.bin/babel src/ -d components/ --delete-dir-on-start --compact false && cp -R ./src ./components/src/",
+    "watch": "./node_modules/.bin/babel src/ -d components/ --compact false -w",
     "local": "./node_modules/.bin/gulp watch",
-    "prepublishOnly": "npm run build"
+    "prepublish": "yarn build && cd ./EpubReader && yarn install"
   },
   "license": "BSD-2-Clause",
   "dependencies": {
@@ -19,7 +19,7 @@
     "@react-native-community/async-storage": "1.10.1",
     "base-64": "0.1.0",
     "buffer": "5.6.0",
-    "epubjs": "0.3.86",
+    "epubjs": "0.3.88",
     "event-emitter": "^0.3.5",
     "events": "3.1.0",
     "i": "0.3.6",
@@ -29,7 +29,7 @@
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-static-server": "0.5.0",
-    "react-native-webview": "^10.9.0",
+    "react-native-webview": "^11.17.1",
     "react-native-zip-archive": "5.0.2",
     "rn-fetch-blob": "0.12.0",
     "stream": "0.0.2",
