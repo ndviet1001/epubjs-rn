@@ -62,6 +62,9 @@ class Rendition extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (this.state.loaded) {
+      this.props.isContentReady?.(true);
+    }
     if (prevProps.url !== this.props.url) {
       this.load(this.props.url);
     }
@@ -101,7 +104,9 @@ class Rendition extends Component {
   }
 
   load(bookUrl) {
-    if (!this._webviewLoaded) return;
+    if (!this._webviewLoaded) {
+      return;
+    }
 
     // console.log("loading book: ", bookUrl);
 
@@ -160,7 +165,9 @@ class Rendition extends Component {
   display(target) {
     let spine = typeof target === 'number' && target;
 
-    if (!this._webviewLoaded) return;
+    if (!this._webviewLoaded) {
+      return;
+    }
 
     if (spine) {
       this.sendToBridge('display', [{ spine: spine }]);
@@ -454,6 +461,7 @@ class Rendition extends Component {
           allowsLinkPreview={false}
           onNavigationStateChange={this.props.onNavigationStateChange}
           onShouldStartLoadWithRequest={this.props.onShouldStartLoadWithRequest}
+          {...(this.props.webviewProps || {})}
         />
         {!this.state.loaded ? loader : null}
       </View>

@@ -174,7 +174,9 @@ class Epub extends Component {
     let wait = 10;
     let _orientation = orientation;
 
-    if (!this.active || !this._isMounted) return;
+    if (!this.active || !this._isMounted) {
+      return;
+    }
 
     if (orientation === 'PORTRAITUPSIDEDOWN' || orientation === 'UNKNOWN') {
       _orientation = 'PORTRAIT';
@@ -241,7 +243,9 @@ class Epub extends Component {
     });
 
     this.book.loaded.navigation.then((nav) => {
-      if (!this.active || !this._isMounted) return;
+      if (!this.active || !this._isMounted) {
+        return;
+      }
       this.setState({ toc: nav.toc });
       this.props.onNavigationReady && this.props.onNavigationReady(nav.toc);
     });
@@ -263,13 +267,12 @@ class Epub extends Component {
       return AsyncStorage.getItem(key).then((stored) => {
         if (this.props.regenerateLocations != true && stored !== null) {
           return this.book.locations.load(stored);
-        } else {
-          return this.book.locations.generate(this.props.locationsCharBreak || 600).then((locations) => {
-            // Save out the generated locations to JSON
-            AsyncStorage.setItem(key, this.book.locations.save());
-            return locations;
-          });
         }
+        return this.book.locations.generate(this.props.locationsCharBreak || 600).then((locations) => {
+          // Save out the generated locations to JSON
+          AsyncStorage.setItem(key, this.book.locations.save());
+          return locations;
+        });
       });
     });
   }
@@ -356,6 +359,8 @@ class Epub extends Component {
         pagingEnabled={this.props.pagingEnabled}
         onNavigationStateChange={this.props.onNavigationStateChange}
         onShouldStartLoadWithRequest={this.props.onShouldStartLoadWithRequest}
+        isContentReady={this.props.isContentReady}
+        {...(this.props.webviewProps || {})}
       />
     );
   }
