@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, View, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
 import { WebView } from 'react-native-webview';
 
@@ -412,11 +412,11 @@ class Rendition extends Component {
               backgroundColor: this.props.backgroundColor || '#FFFFFF',
             },
           ]}>
-          <ActivityIndicator
+          {/* <ActivityIndicator
             color={this.props.color || 'black'}
             size={this.props.size || 'large'}
             style={{ flex: 1 }}
-          />
+          /> */}
         </View>
       </TouchableOpacity>
     );

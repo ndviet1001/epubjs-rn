@@ -6,7 +6,7 @@ import Orientation from '@lightbase/react-native-orientation';
 
 import RNFetchBlob from 'rn-fetch-blob';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const defaultContentInset = { top: 0, bottom: 32 };
 
